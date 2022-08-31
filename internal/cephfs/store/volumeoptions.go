@@ -309,7 +309,19 @@ func NewVolumeOptionsFromVolID(
 		vi         util.CSIIdentifier
 		volOptions VolumeOptions
 		vid        VolumeIdentifier
+		staticVol  bool
 	)
+
+	// fall back to static volume ...
+
+	log.WarningLog(ctx, "volOpt: %v", volOpt)
+	val, ok := volOpt["staticVolume"]
+	if ok {
+		staticVol, _ = strconv.ParseBool(val)
+		if staticVol {
+			return NewVolumeOptionsFromStaticVolume(volID, volOpt)
+		}
+	}
 
 	// Decode the VolID first, to detect older volumes or pre-provisioned volumes
 	// before other errors

@@ -154,3 +154,5 @@ func (ci *CSIIdentifier) DecomposeCSIID(composedCSIID string) error {
 
 	return err
 }
+
+// func (ci *CSIIdentifier)
